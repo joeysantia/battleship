@@ -1,4 +1,4 @@
-  export const ship = (length, majorAxis, headCoordinate) => {
+   export const ship = (length, majorAxis, headCoordinate) => {
 
     let coordinates = []
     coordinates.push({
@@ -29,21 +29,26 @@
 
     }
 
+    let isSunk = false;
+
     function hit(coordinate) {
-        console.log(coordinate.xAxis, coordinate.yAxis)
         let hitCoordinateIndex = coordinates.findIndex(target => {
             return (target.xAxis === coordinate.xAxis) && (target.yAxis === coordinate.yAxis)
         })
-        console.log(hitCoordinateIndex)
         coordinates[hitCoordinateIndex].isHit = true;
     }
 
     function sink() {
-
+        if (coordinates.every(coordinate => !!coordinate.isHit)) { 
+            this.isSunk = true
+        }
     }
 
     function getStatus() {
-        return coordinates
+        return {
+            coordinates: this.coordinates,
+            isSunk: this.isSunk
+        }
     }
     return {
         coordinates,
@@ -58,9 +63,14 @@ const givenShip = ship(2, 'y-axis', {
     xAxis: 'G',
     yAxis: 5
 })
-console.log(givenShip)
 givenShip.hit({
     xAxis: 'G',
     yAxis: 4
 })
-console.log(givenShip.getStatus())
+givenShip.hit({
+    xAxis: 'G',
+    yAxis: 5
+})
+givenShip.sink()
+console.log(givenShip.getStatus().isSunk)
+
