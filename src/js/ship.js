@@ -1,76 +1,56 @@
-   export const ship = (length, majorAxis, headCoordinate) => {
+export const ship = (length, majorAxis, headCoordinate) => {
+  let coordinates = [];
+  let isSunk = false;
 
-    let coordinates = []
+  function addCoordinate(xCoordinate, yCoordinate) {
     coordinates.push({
-        xAxis: headCoordinate.xAxis,
-        yAxis: headCoordinate.yAxis,
-        isHit: false
-    })
+      xAxis: xCoordinate,
+      yAxis: yCoordinate,
+      isHit: false,
+    });
+  }
 
-    for (let i = 1; i < length; i++) {
-        let nextCoordinate;
-        if (majorAxis === 'x-axis') {
-            let nextLetter = String.fromCharCode(headCoordinate.xAxis.charCodeAt(0) + i)
-            nextCoordinate = {
-                xAxis: nextLetter,
-                yAxis: headCoordinate.yAxis,
-                isHit: false
-            }
-            
+  addCoordinate(headCoordinate.xAxis, headCoordinate.yAxis);
 
-        } else {
-            nextCoordinate = {
-                xAxis: headCoordinate.xAxis,
-                yAxis: headCoordinate.yAxis - i,
-                isHit: false
-            }
-        }
-        coordinates.push(nextCoordinate)
-
+  for (let i = 1; i < length; i++) {
+    if (majorAxis === "x-axis") {
+      let nextLetter = String.fromCharCode(
+        headCoordinate.xAxis.charCodeAt(0) + i
+      );
+      addCoordinate(nextLetter, headCoordinate.yAxis);
+    } else {
+      addCoordinate(headCoordinate.xAxis, headCoordinate.yAxis - i);
     }
+  }
 
-    let isSunk = false;
+  function hit(coordinate) {
+    let hitCoordinateIndex = coordinates.findIndex((target) => {
+      return (
+        target.xAxis === coordinate.xAxis && target.yAxis === coordinate.yAxis
+      );
+    });
+    coordinates[hitCoordinateIndex].isHit = true;
+  }
 
-    function hit(coordinate) {
-        let hitCoordinateIndex = coordinates.findIndex(target => {
-            return (target.xAxis === coordinate.xAxis) && (target.yAxis === coordinate.yAxis)
-        })
-        coordinates[hitCoordinateIndex].isHit = true;
+  function sink() {
+    if (coordinates.every((coordinate) => !!coordinate.isHit)) {
+      this.isSunk = true;
     }
+  }
 
-    function sink() {
-        if (coordinates.every(coordinate => !!coordinate.isHit)) { 
-            this.isSunk = true
-        }
-    }
-
-    function getStatus() {
-        return {
-            coordinates: this.coordinates,
-            isSunk: this.isSunk
-        }
-    }
+  function getStatus() {
     return {
-        coordinates,
-        hit,
-        sink,
-        getStatus
-    }
-}
+      coordinates: this.coordinates,
+      isSunk: this.isSunk,
+    };
+  }
 
 
-const givenShip = ship(2, 'y-axis', {
-    xAxis: 'G',
-    yAxis: 5
-})
-givenShip.hit({
-    xAxis: 'G',
-    yAxis: 4
-})
-givenShip.hit({
-    xAxis: 'G',
-    yAxis: 5
-})
-givenShip.sink()
-console.log(givenShip.getStatus().isSunk)
-
+  return {
+    coordinates, //revisit - see below (and don't use in tests!)
+    hit,
+    sink,
+    getStatus,
+    isSunk //revisit - might be a better way to accomplish this. I smell refactoring!
+  };
+};
