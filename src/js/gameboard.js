@@ -1,115 +1,93 @@
 import { ship } from "./ship.js";
 
 export const gameboard = (player) => {
-  let missedAtttacks = [];
+  let missedAttacks = [];
   let ships = [];
+
+  //tragically, i must leave this refactoring for later bc it's breaking everything
+  function isShip(target) {
+    this.ships.find((ship) => {
+      return ship.coordinates.find((coord) => {
+        return (
+          coord.xAxis === target.xAxis &&
+          coord.yAxis === target.yAxis
+        );
+      });
+    })
+  }
 
   function placeShip(length, majorAxis, headCoordinate) {
     const newShip = ship(length, majorAxis, headCoordinate);
 
-    for (let i = 0; i < newShip.getStatus().coordinates.length; i++) {
-      if (
-        this.getShips().some((ship) => {
-          return ship.find((coordinate) => {
+    for (let i = 0; i < newShip.coordinates.length; i++) {
+      if ( 
+        this.ships.find((ship) => {
+          return ship.coordinates.find((coord) => {
             return (
-              coordinate.xAxis === newShip.getStatus().coordinates[i].xAxis &&
-              coordinate.yAxis === newShip.getStatus().coordinates[i].yAxis
+              coord.xAxis === newShip.coordinates[i].xAxis &&
+              coord.yAxis === newShip.coordinates[i].yAxis
             );
           });
         })
-      ) {
-        return "cannot place this ship";
+      )
+       {
+        return;
+      }
+   }
+    ships.push(newShip)
+    
+  }
+
+  function receiveAttack(target) {
+    if (
+      this.ships.find((ship) => {
+        return ship.coordinates.find((coord) => {
+          return (
+            coord.xAxis === target.xAxis &&
+            coord.yAxis === target.yAxis
+          );
+        });
+      })
+    ) {
+      const targetedShip = this.ships.find((ship) => {
+        return ship.coordinates.find((coord) => {
+          return (
+            coord.xAxis === target.xAxis &&
+            coord.yAxis === target.yAxis
+          );
+        });
+      }) ;
+      const targetedShipIndex = ships.findIndex((ship) => targetedShip);
+      targetedShip.hit(target);
+      ships[targetedShipIndex] = targetedShip;
+    } else {
+      missedAttacks.push(target);
+    }
+  }
+
+  function reportSunk() {
+    for (const ship of ships) {
+      if (!ship.isSunk) {
+        return false
       }
     }
-    ships.push(newShip.getStatus().coordinates);
-    return 'ship successfully placed'
-    
-
-  }
-
-  function getShips() {
-    return ships;
-  }
-
-  function receiveAttack() {}
-
-  function getMissedAttacks() {
-    return missedAtttacks;
+    return true
   }
 
   return {
-    ships, //remove me later
+    get ships() {
+      return ships
+    }, 
+    missedAttacks,
     placeShip,
-    getShips,
     receiveAttack,
-    getMissedAttacks,
+    reportSunk
   };
 };
-/*
 
-const givenGameboard = gameboard('givenPlayer')
+const givenGameboard = gameboard('player')
 
 givenGameboard.placeShip(2, 'y-axis', {
   xAxis: 'B',
   yAxis: 3
 })
-
-givenGameboard.placeShip(2, 'y-axis', {
-  xAxis: 'B',
-  yAxis: 4
-})
-
-console.log(givenGameboard.getShips())
-
-/* 
-const givenGameboard = gameboard('givenPlayer')
-
-    givenGameboard.placeShip(2, 'y-axis', {
-        xAxis: 'B',
-        yAxis: 3
-    })
-
-console.log(givenGameboard.getShips())
-
-
-
-
-const givenGameboard = gameboard("givenPlayer");
-
-givenGameboard.placeShip(2, "y-axis", {
-  xAxis: "B",
-  yAxis: 3,
-});
-
-givenGameboard.placeShip(3, "y-axis", {
-  xAxis: "D",
-  yAxis: 10,
-});
-
-const newShip = ship(3, "y-axis", {
-  xAxis: "B",
-  yAxis: 5,
-});
-
-console.log(givenGameboard.getShips());
-
-function test() {
-  for (let i = 0; i < newShip.getStatus().coordinates.length; i++) {
-    if (
-      givenGameboard.getShips().some((ship) => {
-        return ship.find((coordinate) => {
-          return (
-            coordinate.xAxis === newShip.getStatus().coordinates[i].xAxis &&
-            coordinate.yAxis === newShip.getStatus().coordinates[i].yAxis
-          );
-        });
-      })
-    ) {
-      return "cannot place this ship";
-    }
-  }
-  return "can place this ship";
-}
-
-console.log(test());
-*/

@@ -39,12 +39,10 @@ test('a placed ship is logged in the ships array', () => {
     })
     
 
-    expect(givenGameboard.getShips()).toEqual(
+    expect(givenGameboard.ships[0].coordinates).toEqual(
         [
-            [
-              { xAxis: 'B', yAxis: 3, isHit: false },
-              { xAxis: 'B', yAxis: 2, isHit: false }
-            ]
+          { xAxis: 'B', yAxis: 3, isHit: false },
+          { xAxis: 'B', yAxis: 2, isHit: false }
         ]
     )
 })
@@ -61,26 +59,25 @@ test('will not allow a ship to be placed on top of an existing ship', () => {
         xAxis: 'B',
         yAxis: 4
     })
-
-    expect(givenGameboard.getShips()).toEqual(
+    
+    expect(givenGameboard.ships[0].coordinates).toEqual(
         [
-            [
-                {
-                    isHit: false,
-                    xAxis: 'B',
-                    yAxis: 3
-                },
-                {
-                    isHit: false,
-                    xAxis: 'B',
-                    yAxis: 2
-                }
-            ],
-        ]
+            {
+                isHit: false,
+                xAxis: 'B',
+                yAxis: 3
+            },
+            {
+                isHit: false,
+                xAxis: 'B',
+                yAxis: 2
+            }
+        ],
     )
+    expect(givenGameboard.ships[1]).toBeFalsy()
 })
 
-test.skip('can accept an attack on a ship', () => {
+test('can accept an attack on a ship', () => {
     const givenGameboard = gameboard('player')
     
     givenGameboard.placeShip(2, 'y-axis', {
@@ -93,26 +90,26 @@ test.skip('can accept an attack on a ship', () => {
         yAxis: 2
     })
 
-    expect(givenGameboard.getShips().toEqual(
+    expect(givenGameboard.ships[0].coordinates).toEqual(
         [
-            [
-                {
-                    xAxis: 'B',
-                    yAxis: 3,
-                    isHit: false,
-                },
-                {
-                    xAxis: 'B',
-                    yAxis: 2,
-                    isHit: true
-                }
-            ]
+            {
+                xAxis: 'B',
+                yAxis: 3,
+                isHit: false,
+            },
+            {
+                xAxis: 'B',
+                yAxis: 2,
+                isHit: true
+            }
         ]
-    ))
+    )
 
 })
 
-test.skip('will not accept an attack on a ship that has already been hit', () => {
+test('will not accept an attack on a ship that has already been hit', () => {
+    const givenGameboard = gameboard('player')
+    
     givenGameboard.placeShip(2, 'y-axis', {
         xAxis: 'B',
         yAxis: 3
@@ -127,12 +124,63 @@ test.skip('will not accept an attack on a ship that has already been hit', () =>
         xAxis: 'B',
         yAxis: 2
     })
+
+    expect(givenGameboard.ships[0].coordinates).toEqual(
+        [
+            {
+                xAxis: 'B',
+                yAxis: 3,
+                isHit: false
+            },
+            {
+                xAxis: 'B',
+                yAxis: 2,
+                isHit: true
+            }
+        ]
+    )
 })
 
-test.skip('will not accept an attack on an empty space', () => {
+test('will log an attack on an empty space', () => {
+    const givenGameboard = gameboard('player')
+    
+    givenGameboard.placeShip(2, 'y-axis', {
+        xAxis: 'B',
+        yAxis: 3
+    })
 
+    givenGameboard.receiveAttack({
+        xAxis: 'E',
+        yAxis: 2
+    })
+
+    expect(givenGameboard.missedAttacks).toEqual(
+        [
+            {
+                xAxis: 'E',
+                yAxis: 2
+            }
+        ]
+    )
 })
 
-test.skip('reports that all ships are sunk', () => {
+test('reports that all ships are sunk', () => {
+    const givenGameboard = gameboard('player')
+    
+    givenGameboard.placeShip(2, 'y-axis', {
+        xAxis: 'B',
+        yAxis: 3
+    })
 
+    givenGameboard.receiveAttack({
+        xAxis: 'B',
+        yAxis: 2
+    })
+
+    givenGameboard.receiveAttack({
+        xAxis: 'B',
+        yAxis: 3
+    })
+
+    expect(givenGameboard.reportSunk()).toBeTruthy()
 })

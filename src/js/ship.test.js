@@ -5,8 +5,8 @@ test('x-axis ship returns correct status', () => {
         xAxis: 'G',
         yAxis: 5
     })
-    expect(givenShip.getStatus()).toEqual({
-        coordinates: [
+    expect(givenShip.coordinates).toEqual(
+        [
             {
                 xAxis: 'G',
                 yAxis: 5,
@@ -16,11 +16,9 @@ test('x-axis ship returns correct status', () => {
                 xAxis: 'H',
                 yAxis: 5,
                 isHit: false
-            },
-            
-        ],
-        isSunk: false
-    })
+            }
+        ]
+    )
 })
 
 test('y-axis ship returns correct status', () => {
@@ -28,7 +26,7 @@ test('y-axis ship returns correct status', () => {
         xAxis: 'G',
         yAxis: 5
     })
-    expect(givenShip.getStatus().coordinates).toEqual([
+    expect(givenShip.coordinates).toEqual([
         {
             xAxis: 'G',
             yAxis: 5,
@@ -51,7 +49,7 @@ test('x-axis ship loses health when hit', () => {
         xAxis: 'H',
         yAxis: 5
     })
-    expect(givenShip.getStatus().coordinates).toEqual([
+    expect(givenShip.coordinates).toEqual([
         {
             xAxis: 'G',
             yAxis: 5,
@@ -74,7 +72,7 @@ test('y-axis ship loses health when hit', () => {
         xAxis: 'G',
         yAxis: 4
     })
-    expect(givenShip.getStatus().coordinates).toEqual([
+    expect(givenShip.coordinates).toEqual([
         {
             xAxis: 'G',
             yAxis: 5,
@@ -101,8 +99,21 @@ test('isSunk status switches to true when all coordinates are hit', () => {
         xAxis: 'G',
         yAxis: 5
     })
-    givenShip.sink()
-    expect(givenShip.getStatus().isSunk).toBeTruthy()
+    expect(givenShip.coordinates).toEqual(
+    [
+        {
+            xAxis: 'G',
+            yAxis: 5,
+            isHit: true
+        },
+        {
+            xAxis: 'G',
+            yAxis: 4,
+            isHit: true
+        }
+    ])
+   
+    expect(givenShip.isSunk).toBeTruthy()
 })
 
 test('isSunk status does not change when only some coordinates are hit', () => {
@@ -114,6 +125,6 @@ test('isSunk status does not change when only some coordinates are hit', () => {
         xAxis: 'G',
         yAxis: 4
     })
-    givenShip.sink()
-    expect(givenShip.getStatus().isSunk).toBeFalsy()
+    
+    expect(givenShip.isSunk).toBeFalsy()
 })

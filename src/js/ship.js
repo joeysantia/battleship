@@ -10,47 +10,59 @@ export const ship = (length, majorAxis, headCoordinate) => {
     });
   }
 
-  addCoordinate(headCoordinate.xAxis, headCoordinate.yAxis);
+  const setCoordinates = (function() {
+    addCoordinate(headCoordinate.xAxis, headCoordinate.yAxis);
 
-  for (let i = 1; i < length; i++) {
-    if (majorAxis === "x-axis") {
-      let nextLetter = String.fromCharCode(
-        headCoordinate.xAxis.charCodeAt(0) + i
-      );
-      addCoordinate(nextLetter, headCoordinate.yAxis);
-    } else {
-      addCoordinate(headCoordinate.xAxis, headCoordinate.yAxis - i);
+    for (let i = 1; i < length; i++) {
+      if (majorAxis === "x-axis") {
+        let nextLetter = String.fromCharCode(
+          headCoordinate.xAxis.charCodeAt(0) + i
+        );
+        addCoordinate(nextLetter, headCoordinate.yAxis);
+      } else {
+        addCoordinate(headCoordinate.xAxis, headCoordinate.yAxis - i);
+      }
     }
-  }
+  })()
+  
 
   function hit(coordinate) {
     let hitCoordinateIndex = coordinates.findIndex((target) => {
       return (
-        target.xAxis === coordinate.xAxis && target.yAxis === coordinate.yAxis
+        target.xAxis === coordinate.xAxis && 
+        target.yAxis === coordinate.yAxis
       );
     });
     coordinates[hitCoordinateIndex].isHit = true;
+    sinkCheck.bind(this)()
   }
 
-  function sink() {
-    if (coordinates.every((coordinate) => !!coordinate.isHit)) {
+  function sinkCheck() {
+    if (this.coordinates.every((coordinate) => !!coordinate.isHit)) {
       this.isSunk = true;
     }
   }
 
-  function getStatus() {
-    return {
-      coordinates: this.coordinates,
-      isSunk: this.isSunk,
-    };
-  }
-
 
   return {
-    coordinates, //revisit - see below (and don't use in tests!)
+    coordinates,
     hit,
-    sink,
-    getStatus,
-    isSunk //revisit - might be a better way to accomplish this. I smell refactoring!
+    isSunk
   };
 };
+
+const givenShip = ship(2, 'y-axis', {
+  xAxis: 'G',
+  yAxis: 5
+})
+givenShip.hit({
+  xAxis: 'G',
+  yAxis: 4
+})
+
+givenShip.hit({
+  xAxis: 'G',
+  yAxis: 5
+})
+
+
