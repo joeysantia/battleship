@@ -2,14 +2,6 @@ export const ship = (length, majorAxis, headCoordinate) => {
   let coordinates = [];
   let isSunk = false;
 
-  function addCoordinate(xCoordinate, yCoordinate) {
-    coordinates.push({
-      xAxis: xCoordinate,
-      yAxis: yCoordinate,
-      isHit: false,
-    });
-  }
-
   const setCoordinates = (function() {
     addCoordinate(headCoordinate.xAxis, headCoordinate.yAxis);
 
@@ -24,6 +16,14 @@ export const ship = (length, majorAxis, headCoordinate) => {
       }
     }
   })()
+
+  function addCoordinate(xCoordinate, yCoordinate) {
+    coordinates.push({
+      xAxis: xCoordinate,
+      yAxis: yCoordinate,
+      isHit: false,
+    });
+  }
   
 
   function hit(coordinate) {
@@ -38,7 +38,7 @@ export const ship = (length, majorAxis, headCoordinate) => {
   }
 
   function sinkCheck() {
-    if (this.coordinates.every((coordinate) => !!coordinate.isHit)) {
+    if (this.coordinates.every((coordinate) => coordinate.isHit)) {
       this.isSunk = true;
     }
   }
@@ -50,19 +50,5 @@ export const ship = (length, majorAxis, headCoordinate) => {
     isSunk
   };
 };
-
-const givenShip = ship(2, 'y-axis', {
-  xAxis: 'G',
-  yAxis: 5
-})
-givenShip.hit({
-  xAxis: 'G',
-  yAxis: 4
-})
-
-givenShip.hit({
-  xAxis: 'G',
-  yAxis: 5
-})
 
 

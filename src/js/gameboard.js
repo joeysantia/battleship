@@ -18,10 +18,14 @@ export const gameboard = (player) => {
 
   function placeShip(length, majorAxis, headCoordinate) {
     const newShip = ship(length, majorAxis, headCoordinate);
+    //isShip.bind(this)(newShip.coordinates[i])
+    function isShipBound(target) {
+      return isShip.bind(this)(target)
+    } 
 
     for (let i = 0; i < newShip.coordinates.length; i++) {
-      if ( 
-        this.ships.find((ship) => {
+      if (isShip.bind(this)(newShip.coordinates[i]))
+        /*this.ships.find((ship) => {
           return ship.coordinates.find((coord) => {
             return (
               coord.xAxis === newShip.coordinates[i].xAxis &&
@@ -29,7 +33,7 @@ export const gameboard = (player) => {
             );
           });
         })
-      )
+      )*/
        {
         return;
       }
@@ -84,10 +88,3 @@ export const gameboard = (player) => {
     reportSunk
   };
 };
-
-const givenGameboard = gameboard('player')
-
-givenGameboard.placeShip(2, 'y-axis', {
-  xAxis: 'B',
-  yAxis: 3
-})
