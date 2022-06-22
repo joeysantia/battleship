@@ -9,3 +9,39 @@ THE GAME
 5. Declares that the game is over once all ships are sunk on a gameboard
 
 */
+
+import { ship } from './ship'
+import { gameboard } from './gameboard'
+import { player } from './player'
+import { get } from 'lodash';
+
+
+//not a huge fan of this - able to refactor so that they're not global ? 
+let player1;
+let player2;
+
+//perhaps this could be a setter, and the above can be a getter ?
+function gameStart(name1, name2) {
+
+    player1 = player(name1)
+    player2 = player(name2)
+
+}
+
+const isGameOver = () => {
+    if(player1.board.reportSunk() || player2.board.reportSunk()) {
+        return true
+    } else {
+        return false
+    }
+
+}
+
+export {
+    player1, 
+    player2,
+    gameStart,
+    isGameOver
+}
+
+

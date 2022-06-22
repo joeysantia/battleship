@@ -4,9 +4,9 @@ export const gameboard = (player) => {
   let missedAttacks = [];
   let ships = [];
 
-  //tragically, i must leave this refactoring for later bc it's breaking everything
+  
   function isShip(target) {
-    this.ships.find((ship) => {
+    return this.ships.find((ship) => {
       return ship.coordinates.find((coord) => {
         return (
           coord.xAxis === target.xAxis &&
@@ -17,23 +17,12 @@ export const gameboard = (player) => {
   }
 
   function placeShip(length, majorAxis, headCoordinate) {
+    
     const newShip = ship(length, majorAxis, headCoordinate);
-    //isShip.bind(this)(newShip.coordinates[i])
-    function isShipBound(target) {
-      return isShip.bind(this)(target)
-    } 
 
     for (let i = 0; i < newShip.coordinates.length; i++) {
+      //revisit, see if you can DRY 
       if (isShip.bind(this)(newShip.coordinates[i]))
-        /*this.ships.find((ship) => {
-          return ship.coordinates.find((coord) => {
-            return (
-              coord.xAxis === newShip.coordinates[i].xAxis &&
-              coord.yAxis === newShip.coordinates[i].yAxis
-            );
-          });
-        })
-      )*/
        {
         return;
       }
@@ -43,24 +32,8 @@ export const gameboard = (player) => {
   }
 
   function receiveAttack(target) {
-    if (
-      this.ships.find((ship) => {
-        return ship.coordinates.find((coord) => {
-          return (
-            coord.xAxis === target.xAxis &&
-            coord.yAxis === target.yAxis
-          );
-        });
-      })
-    ) {
-      const targetedShip = this.ships.find((ship) => {
-        return ship.coordinates.find((coord) => {
-          return (
-            coord.xAxis === target.xAxis &&
-            coord.yAxis === target.yAxis
-          );
-        });
-      }) ;
+    if (isShip.bind(this)(target)) {
+      const targetedShip = isShip.bind(this)(target)
       const targetedShipIndex = ships.findIndex((ship) => targetedShip);
       targetedShip.hit(target);
       ships[targetedShipIndex] = targetedShip;
@@ -88,3 +61,9 @@ export const gameboard = (player) => {
     reportSunk
   };
 };
+
+const test = gameboard('test')
+test.placeShip(2, 'x-axis', {
+  xAxis: 'B',
+  yAxis: 7
+})
