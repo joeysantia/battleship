@@ -42,7 +42,7 @@ test('a placed ship is logged in the ships array', () => {
     expect(givenGameboard.ships[0].coordinates).toEqual(
         [
           { xAxis: 'B', yAxis: 3, isHit: false },
-          { xAxis: 'B', yAxis: 2, isHit: false }
+          { xAxis: 'B', yAxis: 4, isHit: false }
         ]
     )
 })
@@ -70,11 +70,22 @@ test('will not allow a ship to be placed on top of an existing ship', () => {
             {
                 isHit: false,
                 xAxis: 'B',
-                yAxis: 2
+                yAxis: 4
             }
         ],
     )
     expect(givenGameboard.ships[1]).toBeFalsy()
+})
+
+test('will not allow an invalid ship to be placed', () => {
+    const givenGameboard = gameboard('player')
+
+    givenGameboard.placeShip(2, 'y-axis', {
+        xAxis: 'J',
+        yAxis: 10
+    })
+
+    expect(givenGameboard.ships.length).toEqual(0)
 })
 
 test('can accept an attack on a ship', () => {
@@ -87,7 +98,7 @@ test('can accept an attack on a ship', () => {
 
     givenGameboard.receiveAttack({
         xAxis: 'B',
-        yAxis: 2
+        yAxis: 4
     })
 
     expect(givenGameboard.ships[0].coordinates).toEqual(
@@ -99,7 +110,7 @@ test('can accept an attack on a ship', () => {
             },
             {
                 xAxis: 'B',
-                yAxis: 2,
+                yAxis: 4,
                 isHit: true
             }
         ]
@@ -117,12 +128,12 @@ test('will not accept an attack on a ship that has already been hit', () => {
 
     givenGameboard.receiveAttack({
         xAxis: 'B',
-        yAxis: 2
+        yAxis: 4
     })
 
     givenGameboard.receiveAttack({
         xAxis: 'B',
-        yAxis: 2
+        yAxis: 4
     })
 
     expect(givenGameboard.ships[0].coordinates).toEqual(
@@ -134,7 +145,7 @@ test('will not accept an attack on a ship that has already been hit', () => {
             },
             {
                 xAxis: 'B',
-                yAxis: 2,
+                yAxis: 4,
                 isHit: true
             }
         ]
@@ -174,7 +185,7 @@ test('reports that all ships are sunk', () => {
 
     givenGameboard.receiveAttack({
         xAxis: 'B',
-        yAxis: 2
+        yAxis: 4
     })
 
     givenGameboard.receiveAttack({

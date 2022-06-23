@@ -12,7 +12,7 @@ export const ship = (length, majorAxis, headCoordinate) => {
         );
         addCoordinate(nextLetter, headCoordinate.yAxis);
       } else {
-        addCoordinate(headCoordinate.xAxis, headCoordinate.yAxis - i);
+        addCoordinate(headCoordinate.xAxis, headCoordinate.yAxis + i);
       }
     }
   })()

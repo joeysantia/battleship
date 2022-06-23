@@ -34,7 +34,7 @@ test('y-axis ship returns correct status', () => {
         },
         {
             xAxis: 'G',
-            yAxis: 4,
+            yAxis: 6,
             isHit: false
         }
     ])
@@ -70,7 +70,7 @@ test('y-axis ship loses health when hit', () => {
     })
     givenShip.hit({
         xAxis: 'G',
-        yAxis: 4
+        yAxis: 6
     })
     expect(givenShip.coordinates).toEqual([
         {
@@ -80,7 +80,7 @@ test('y-axis ship loses health when hit', () => {
         }, 
         {
             xAxis: 'G',
-            yAxis: 4,
+            yAxis: 6,
             isHit: true
         }
     ])
@@ -93,7 +93,7 @@ test('isSunk status switches to true when all coordinates are hit', () => {
     })
     givenShip.hit({
         xAxis: 'G',
-        yAxis: 4
+        yAxis: 6
     })
     givenShip.hit({
         xAxis: 'G',
@@ -108,7 +108,7 @@ test('isSunk status switches to true when all coordinates are hit', () => {
         },
         {
             xAxis: 'G',
-            yAxis: 4,
+            yAxis: 6,
             isHit: true
         }
     ])
@@ -123,7 +123,7 @@ test('isSunk status does not change when only some coordinates are hit', () => {
     })
     givenShip.hit({
         xAxis: 'G',
-        yAxis: 4
+        yAxis: 6
     })
     
     expect(givenShip.isSunk).toBeFalsy()

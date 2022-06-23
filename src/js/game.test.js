@@ -13,5 +13,3 @@ test('gameStart sets player1 and player2', () => {
     expect(JSON.stringify(player1)).toEqual(JSON.stringify(player('Jeremy')))
     expect(JSON.stringify(player2)).toEqual(JSON.stringify(player('Paul')))
 })
-
-test('')

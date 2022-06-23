@@ -16,18 +16,28 @@ export const gameboard = (player) => {
     })
   }
 
+  function hasValidCoordinates(length, majorAxis, headCoordinate) {
+    if (majorAxis === 'xAxis') {
+      return (headCoordinate.xAxis.charCodeAt(0) + length <= 'J'.charCodeAt(0) ? true : false)
+    } else {
+      return (headCoordinate.yAxis + length <= 10 ? true : false)
+    }
+  }
+
   function placeShip(length, majorAxis, headCoordinate) {
     
     const newShip = ship(length, majorAxis, headCoordinate);
 
     for (let i = 0; i < newShip.coordinates.length; i++) {
-      //revisit, see if you can DRY 
-      if (isShip.bind(this)(newShip.coordinates[i]))
+      //this feels quite convoluted - revisit
+      if (isShip.bind(this)(newShip.coordinates[i]) || !hasValidCoordinates(length, majorAxis, headCoordinate))
        {
-        return;
+        return
       }
+
+      ships.push(newShip)
    }
-    ships.push(newShip)
+    
     
   }
 
