@@ -18,6 +18,35 @@ section {
     align-items: center;
 }
 
+.player-1 .grid {
+    pointer-events: none;
+}
+
+.player-1 .occupied {
+    background-color: grey;
+}
+
+.player-1.occupied.hit {
+    background-color: red;
+}
+
+.hit {
+    background: red;
+}
+
+.missed {
+    background: blue
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: default; /*can I remove some redundancy here?*/
+}
+
+.player-2 .grid{
+    cursor: pointer;
+}
+
 .container {
     display: grid;
     grid-template-columns: repeat(11, 1fr);
@@ -36,4 +65,9 @@ section {
 
 .grid:hover {
     opacity: 0.2
+}
+
+#test {
+    height: 40px;
+    width: 40px;
 }

@@ -1,3 +1,8 @@
+/**
+ * @jest-environment jsdom
+ */ 
+
+
 import { player } from './player'
 import { gameboard } from './gameboard'
 import { ship } from './ship'
@@ -21,6 +26,8 @@ test('computer can make a random move', () => {
 
     computer.move(human)
 
+    console.log(human.board.missedAttacks)
     expect(human.board.missedAttacks.length).toEqual(1)
     
 })
+

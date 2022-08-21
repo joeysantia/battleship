@@ -1,7 +1,7 @@
 import { ship } from './ship'
 
 test('x-axis ship returns correct status', () => {
-    const givenShip = ship(2, 'x-axis', {
+    const givenShip = ship('Patrol Boat', 'x-axis', {
         xAxis: 'G',
         yAxis: 5
     })
@@ -22,7 +22,7 @@ test('x-axis ship returns correct status', () => {
 })
 
 test('y-axis ship returns correct status', () => {
-    const givenShip = ship(2, 'y-axis', {
+    const givenShip = ship('Patrol Boat', 'y-axis', {
         xAxis: 'G',
         yAxis: 5
     })
@@ -41,7 +41,7 @@ test('y-axis ship returns correct status', () => {
 })
 
 test('x-axis ship loses health when hit', () => {
-    const givenShip = ship(2, 'x-axis', {
+    const givenShip = ship('Patrol Boat', 'x-axis', {
         xAxis: 'G',
         yAxis: 5
     })
@@ -64,7 +64,7 @@ test('x-axis ship loses health when hit', () => {
 })
 
 test('y-axis ship loses health when hit', () => {
-    const givenShip = ship(2, 'y-axis', {
+    const givenShip = ship('Patrol Boat', 'y-axis', {
         xAxis: 'G',
         yAxis: 5
     })
@@ -87,7 +87,7 @@ test('y-axis ship loses health when hit', () => {
 })
 
 test('isSunk status switches to true when all coordinates are hit', () => {
-    const givenShip = ship(2, 'y-axis', {
+    const givenShip = ship('Patrol Boat', 'y-axis', {
         xAxis: 'G',
         yAxis: 5
     })
@@ -117,7 +117,7 @@ test('isSunk status switches to true when all coordinates are hit', () => {
 })
 
 test('isSunk status does not change when only some coordinates are hit', () => {
-    const givenShip = ship(2, 'y-axis', {
+    const givenShip = ship('Patrol Boat', 'y-axis', {
         xAxis: 'G',
         yAxis: 5
     })

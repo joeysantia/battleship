@@ -1,9 +1,25 @@
-export const ship = (length, majorAxis, headCoordinate) => {
+export const ship = (name, majorAxis, headCoordinate) => {
   let coordinates = [];
   let isSunk = false;
+  let length;
 
   const setCoordinates = (function() {
     addCoordinate(headCoordinate.xAxis, headCoordinate.yAxis);
+
+    switch(name) {
+      case 'Carrier':
+        length = 5;
+        break;
+      case 'Battleship':
+        length = 4
+        break;
+      case 'Patrol Boat':
+        length = 2;
+        break;
+      default:
+        length = 3;
+        break;
+    }
 
     for (let i = 1; i < length; i++) {
       if (majorAxis === "x-axis") {
@@ -45,6 +61,8 @@ export const ship = (length, majorAxis, headCoordinate) => {
 
 
   return {
+    name,
+    length,
     coordinates,
     hit,
     isSunk

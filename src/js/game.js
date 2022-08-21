@@ -11,38 +11,143 @@ THE GAME
 
 */
 
-import { ship } from './ship'
-import { gameboard } from './gameboard'
-import { player } from './player'
-import { get } from 'lodash';
+import {
+  message1,
+  message2,
+  message3,
+  messageUpdate,
+  toggleDisabled,
+  createResetButton
+} from "./dom";
+import { player } from "./player";
+import { renderOwnShips, renderEnemyShips } from "./eventlisteners";
 
-
-//not a huge fan of this - able to refactor so that they're not global ? 
+//not a huge fan of this - able to refactor so that they're not global ?
 let player1;
 let player2;
 
 //perhaps this could be a setter, and the above can be a getter ?
 function gameStart(name1, name2) {
+  player1 = player(name1);
+  player2 = player(name2);
+}
 
-    player1 = player(name1)
-    player2 = player(name2)
+async function turn(target, cell) {
+  try {
+    toggleDisabled();
+    await messageUpdate(message1, "You fired ... ", "reset", null, null);
 
+    player1.move(player2, target);
+
+    if (player2.board.missedAttacks.indexOf(target) > -1) {
+      await messageUpdate(message1, "and missed.", "add", cell, "missed");
+    } else {
+      await messageUpdate(message1, "it's a hit!", "add", cell, "hit");
+
+      let ship = player2.board.ships.find((ship) => {
+        return ship.coordinates.find((coord) => {
+          return coord.xAxis === target.xAxis && coord.yAxis === target.yAxis;
+        });
+      })
+
+      if (ship.isSunk) {
+        await messageUpdate(message2, `You sunk the enemy's ${ship.name}!`, "reset", null, null);
+
+        if (isGameOver()) {
+          messageUpdate(message3, "You won!", "reset", null, null)
+          return createResetButton()
+        };
+      }
+
+      
+    }
+
+    messageUpdate(message2, "", "reset", null, null);
+    await messageUpdate(
+      message1,
+      "The computer fired ... ",
+      "reset",
+      null,
+      null
+    );
+
+    let computerTarget = player2.move(player1);
+
+    let targetCell = document.querySelector(`
+            .player-1.grid.${computerTarget.xAxis}-${computerTarget.yAxis}
+        `);
+
+    if (player1.board.missedAttacks.indexOf(computerTarget) > -1) {
+      await messageUpdate(message1, "and missed.", "add", targetCell, "missed");
+    } else {
+      await messageUpdate(message1, "it's a hit!", "add", targetCell, "hit");
+
+      let ship = player1.board.ships.find((ship) => {
+        return ship.coordinates.find((coord) => {
+          return coord.xAxis === computerTarget.xAxis && coord.yAxis === computerTarget.yAxis;
+        });
+      })
+
+      if (ship.isSunk) {
+        await messageUpdate(message2, `The enemy sunk your ${ship.name}!`, "reset", null, null);
+
+        if (isGameOver()) {
+          messageUpdate(message3, "You lost.", "reset", null, null)
+          return createResetButton()
+        };
+      }
+    }
+
+    toggleDisabled();
+    await messageUpdate(message1, "Your turn.", "reset");
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 const isGameOver = () => {
-    if(player1.board.reportSunk() || player2.board.reportSunk()) {
-        return true
-    } else {
-        return false
-    }
+  if (player1.board.reportSunk() || player2.board.reportSunk()) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
-}
+window.onload = function () {
+  gameStart("human", "computer");
 
-export {
-    player1, 
-    player2,
-    gameStart,
-    isGameOver
-}
+  console.log(player1);
+  console.log(player2);
 
+  player1.board.placeShip('Carrier', "x-axis", {
+    xAxis: "C",
+    yAxis: 5,
+  });
+  player1.board.placeShip('Patrol Boat', "y-axis", {
+    xAxis: "A",
+    yAxis: 1,
+  });
+  player1.board.placeShip('Destroyer', "x-axis", {
+    xAxis: "F",
+    yAxis: 10,
+  });
 
+  /* player2.board.placeShip(3, "x-axis", {
+    xAxis: "B",
+    yAxis: 5,
+  });
+  */
+  player2.board.placeShip('Battleship', "y-axis", {
+    xAxis: "A",
+    yAxis: 1,
+  });
+  
+  
+
+  renderOwnShips(player1);
+  renderEnemyShips(player2);
+
+  
+};
+
+export { player1, player2, turn, gameStart, isGameOver };
