@@ -8,10 +8,14 @@ THE DOM
 const cells = document.querySelectorAll('.grid')
 const player1Cells = document.querySelectorAll('.player-1.grid')
 const player2Cells = document.querySelectorAll('.player-2.grid')
+const messageContainer = document.querySelector('#message')
 const message1 = document.querySelector('#message-1')
 const message2 = document.querySelector('#message-2')
 const message3 = document.querySelector('#message-3')
 const player2Board = document.querySelector('.player-2')
+const drag = document.querySelector('img')
+const drop = document.querySelectorAll('.player-1.grid')
+const axisButton = document.querySelector('#axis')
 
 async function messageUpdate(header, text, action, element, newClass) {
     if (action === 'add') {
@@ -46,6 +50,7 @@ function createResetButton() {
 }
 
 export {
+    messageContainer,
     message1,
     message2,
     message3,
@@ -53,6 +58,9 @@ export {
     player2Board,
     player1Cells,
     player2Cells,
+    drag,
+    drop,
+    axisButton,
     messageUpdate, 
     toggleDisabled,
     createResetButton

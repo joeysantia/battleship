@@ -16,7 +16,7 @@ export const ship = (name, majorAxis, headCoordinate) => {
       case 'Patrol Boat':
         length = 2;
         break;
-      default:
+      default: //both Cruiser and Submarine are 3 units long
         length = 3;
         break;
     }

@@ -30,10 +30,11 @@ export const gameboard = (player) => {
         isShip.bind(this)(newShip.coordinates[i]) ||
         !hasValidCoordinates(newShip.length, majorAxis, headCoordinate)
       ) {
-        return;
+        return
       }
     }
-    ships.push(newShip)
+    return ships.push(newShip)
+    
   }
 
   function receiveAttack(target) {

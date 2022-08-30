@@ -19,7 +19,7 @@ section {
 }
 
 .player-1 .grid {
-    pointer-events: none;
+    /*pointer-events: none; can definitely remove redundancy here */
 }
 
 .player-1 .occupied {
@@ -65,6 +65,11 @@ section {
 
 .grid:hover {
     opacity: 0.2
+}
+
+img {
+    width: 40px;
+    height: 213px;
 }
 
 #test {
