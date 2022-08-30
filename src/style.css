@@ -67,9 +67,54 @@ section {
     opacity: 0.2
 }
 
-img {
+#carrier-y {
     width: 40px;
     height: 213px;
+}
+
+#carrier-x {
+    height: 40px;
+    width: 213px;
+}
+
+#battleship-y {
+    width: 40px;
+    height: 163px;
+}
+
+#battleship-x {
+    height: 40px;
+    width: 163px;
+}
+
+#cruiser-y {
+    width: 40px;
+    height: 123px;
+}
+
+#cruiser-x {
+    width: 123px;
+    height: 40px;
+}
+
+#submarine-y {
+    width: 40px;
+    height: 123px;
+}
+
+#submarine-x {
+    height: 40px;
+    width: 123px;
+}
+
+#patrol-boat-y {
+    width: 40px;
+    height: 90px;
+}
+
+#patrol-boat-x {
+    height: 40px;
+    width: 90px;
 }
 
 #test {

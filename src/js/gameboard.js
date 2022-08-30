@@ -3,6 +3,7 @@ import { ship } from "./ship.js";
 export const gameboard = (player) => {
   let missedAttacks = [];
   let ships = [];
+  let shipsPlaced = 0;
 
   function isShip(target) {
     return this.ships.find((ship) => {
@@ -22,7 +23,28 @@ export const gameboard = (player) => {
     }
   }
 
-  function placeShip(name, majorAxis, headCoordinate) {
+  function placeShip(majorAxis, headCoordinate) {
+    
+    let name; 
+
+    switch(this.shipsPlaced) {
+      case 0: 
+        name = 'Carrier'
+        break;
+      case 1: 
+        name = 'Battleship'
+        break;
+      case 2: 
+        name = 'Cruiser'
+        break;
+      case 3:
+        name = 'Submarine'
+        break;
+      case 4: 
+        name = 'Patrol Boat';
+        break;
+    }
+
     const newShip = ship(name, majorAxis, headCoordinate);
 
     for (let i = 0; i < newShip.coordinates.length; i++) {
@@ -33,6 +55,7 @@ export const gameboard = (player) => {
         return
       }
     }
+    this.shipsPlaced++
     return ships.push(newShip)
     
   }
@@ -61,6 +84,7 @@ export const gameboard = (player) => {
     get ships() {
       return ships;
     },
+    shipsPlaced,
     missedAttacks,
     placeShip,
     receiveAttack,

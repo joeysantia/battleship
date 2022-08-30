@@ -32,8 +32,9 @@ import {gameboard} from './gameboard'
 
 test('a placed ship is logged in the ships array', () => {
     const givenGameboard = gameboard('givenPlayer')
-
-    givenGameboard.placeShip('Patrol Boat', 'y-axis', {
+    givenGameboard.shipsPlaced = 4;
+    
+    givenGameboard.placeShip('y-axis', {
         xAxis: 'B',
         yAxis: 3
     })
@@ -50,12 +51,16 @@ test('a placed ship is logged in the ships array', () => {
 test('will not allow a ship to be placed on top of an existing ship', () => {
     const givenGameboard = gameboard('givenPlayer')
 
-    givenGameboard.placeShip('Patrol Boat', 'y-axis', {
+    givenGameboard.shipsPlaced = 4;
+
+    givenGameboard.placeShip('y-axis', {
         xAxis: 'A',
         yAxis: 2
     })
 
-    givenGameboard.placeShip('Patrol Boat', 'y-axis', {
+    givenGameboard.shipsPlaced = 4;
+
+    givenGameboard.placeShip('y-axis', {
         xAxis: 'A',
         yAxis: 1
     })
@@ -79,8 +84,9 @@ test('will not allow a ship to be placed on top of an existing ship', () => {
 
 test('will not allow an invalid ship to be placed', () => {
     const givenGameboard = gameboard('player')
+    givenGameboard.shipsPlaced = 4;
 
-    givenGameboard.placeShip('Patrol Boat', 'y-axis', {
+    givenGameboard.placeShip('y-axis', {
         xAxis: 'J',
         yAxis: 10
     })
@@ -90,8 +96,9 @@ test('will not allow an invalid ship to be placed', () => {
 
 test('can accept an attack on a ship', () => {
     const givenGameboard = gameboard('player')
+    givenGameboard.shipsPlaced = 4;
     
-    givenGameboard.placeShip('Patrol Boat', 'y-axis', {
+    givenGameboard.placeShip('y-axis', {
         xAxis: 'B',
         yAxis: 3
     })
@@ -120,8 +127,9 @@ test('can accept an attack on a ship', () => {
 
 test('will not accept an attack on a ship that has already been hit', () => {
     const givenGameboard = gameboard('player')
+    givenGameboard.shipsPlaced = 4;
     
-    givenGameboard.placeShip('Patrol Boat', 'y-axis', {
+    givenGameboard.placeShip('y-axis', {
         xAxis: 'B',
         yAxis: 3
     })
@@ -154,8 +162,9 @@ test('will not accept an attack on a ship that has already been hit', () => {
 
 test('will log an attack on an empty space', () => {
     const givenGameboard = gameboard('player')
+    givenGameboard.shipsPlaced = 4;
     
-    givenGameboard.placeShip('Patrol Boat', 'y-axis', {
+    givenGameboard.placeShip('y-axis', {
         xAxis: 'B',
         yAxis: 3
     })
@@ -177,8 +186,9 @@ test('will log an attack on an empty space', () => {
 
 test('reports that all ships are sunk', () => {
     const givenGameboard = gameboard('player')
+    givenGameboard.shipsPlaced = 4;
     
-    givenGameboard.placeShip('Patrol Boat', 'y-axis', {
+    givenGameboard.placeShip('y-axis', {
         xAxis: 'B',
         yAxis: 3
     })

@@ -13,7 +13,7 @@ const message1 = document.querySelector('#message-1')
 const message2 = document.querySelector('#message-2')
 const message3 = document.querySelector('#message-3')
 const player2Board = document.querySelector('.player-2')
-const drag = document.querySelector('img')
+const drag = document.querySelector('.drag')
 const drop = document.querySelectorAll('.player-1.grid')
 const axisButton = document.querySelector('#axis')
 

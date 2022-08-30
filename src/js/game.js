@@ -119,28 +119,49 @@ window.onload = function () {
   console.log(player1);
   console.log(player2);
 
-  player1.board.placeShip('Carrier', "x-axis", {
+  /*player1.board.placeShip("x-axis", {
     xAxis: "C",
     yAxis: 5,
   });
-  player1.board.placeShip('Patrol Boat', "y-axis", {
+  player1.board.placeShip("y-axis", {
     xAxis: "A",
     yAxis: 1,
   });
-  player1.board.placeShip('Destroyer', "x-axis", {
+  player1.board.placeShip("x-axis", {
     xAxis: "F",
     yAxis: 10,
-  });
+  });*/
 
   /* player2.board.placeShip(3, "x-axis", {
     xAxis: "B",
     yAxis: 5,
   });
   */
-  player2.board.placeShip('Battleship', "y-axis", {
-    xAxis: "A",
-    yAxis: 1,
-  });
+
+  while (player2.board.shipsPlaced < 5) {
+
+    let xArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+    let yArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    let orientationArr = ['y-axis', 'x-axis']
+
+      let x = random(xArr)
+      let y = random(yArr)
+      let orientation = random(orientationArr)
+      //consider refactoring - you may be able to just store the xAxis and yAxis as random(xArr) and random(yArr) directly
+      //which saves you a couple of lines 
+    
+    player2.board.placeShip(orientation, {
+      xAxis: x,
+      yAxis: y,
+    });
+
+    function random(arr) {
+      return arr[Math.floor(Math.random() * arr.length)]
+    }
+  }
+
+  console.log(player2.board)
+  
   
   
 
