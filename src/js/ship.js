@@ -4,7 +4,7 @@ export const ship = (name, majorAxis, headCoordinate) => {
   let length;
 
   const setCoordinates = (function() {
-    addCoordinate(headCoordinate.xAxis, headCoordinate.yAxis);
+    addCoordinate(headCoordinate);
 
     switch(name) {
       case 'Carrier':
@@ -24,19 +24,18 @@ export const ship = (name, majorAxis, headCoordinate) => {
     for (let i = 1; i < length; i++) {
       if (majorAxis === "x-axis") {
         let nextLetter = String.fromCharCode(
-          headCoordinate.xAxis.charCodeAt(0) + i
+          headCoordinate.charCodeAt(0) + i
         );
-        addCoordinate(nextLetter, headCoordinate.yAxis);
+        addCoordinate(`${String.fromCharCode(headCoordinate.charCodeAt(0) + i)}${headCoordinate.slice(1)}`);
       } else {
-        addCoordinate(headCoordinate.xAxis, headCoordinate.yAxis + i);
+        addCoordinate(`${headCoordinate[0]}${Number(headCoordinate.slice(1)) + i}`);
       }
     }
   })()
 
-  function addCoordinate(xCoordinate, yCoordinate) {
+  function addCoordinate(coordinate) {
     coordinates.push({
-      xAxis: xCoordinate,
-      yAxis: yCoordinate,
+      coordinate: coordinate,
       isHit: false,
     });
   }
@@ -45,8 +44,7 @@ export const ship = (name, majorAxis, headCoordinate) => {
   function hit(coordinate) {
     let hitCoordinateIndex = coordinates.findIndex((target) => {
       return (
-        target.xAxis === coordinate.xAxis && 
-        target.yAxis === coordinate.yAxis
+        coordinate === target.coordinate
       );
     });
     coordinates[hitCoordinateIndex].isHit = true;

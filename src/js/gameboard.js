@@ -8,18 +8,20 @@ export const gameboard = (player) => {
   function isShip(target) {
     return this.ships.find((ship) => {
       return ship.coordinates.find((coord) => {
-        return coord.xAxis === target.xAxis && coord.yAxis === target.yAxis;
+        if (target.coordinate) {
+          return coord.coordinate === target.coordinate
+        } else {
+          return coord.coordinate === target;
+        }
       });
     });
   }
 
   function hasValidCoordinates(length, majorAxis, headCoordinate) {
     if (majorAxis === "x-axis") {
-      return headCoordinate.xAxis.charCodeAt(0) + length <= "J".charCodeAt(0)
-        ? true
-        : false;
+      return length + headCoordinate.charCodeAt(0) <= "J".charCodeAt(0)
     } else {
-      return headCoordinate.yAxis + length <= 10 ? true : false;
+      return length + Number(headCoordinate.slice(1)) <= 10
     }
   }
 
@@ -47,7 +49,10 @@ export const gameboard = (player) => {
 
     const newShip = ship(name, majorAxis, headCoordinate);
 
+   
+
     for (let i = 0; i < newShip.coordinates.length; i++) {
+      console.log(newShip.coordinates[i], isShip.bind(this)(newShip.coordinates[i]))
       if (
         isShip.bind(this)(newShip.coordinates[i]) ||
         !hasValidCoordinates(newShip.length, majorAxis, headCoordinate)
@@ -61,8 +66,9 @@ export const gameboard = (player) => {
   }
 
   function receiveAttack(target) {
-    if (isShip.bind(this)(target)) {
-      const targetedShip = isShip.bind(this)(target);
+    const targetedShip = isShip.bind(this)(target);
+
+    if (targetedShip) {
       const targetedShipIndex = ships.findIndex((ship) => targetedShip);
       targetedShip.hit(target);
       ships[targetedShipIndex] = targetedShip;

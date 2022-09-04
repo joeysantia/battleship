@@ -6,12 +6,9 @@ let orientation = 'y-axis'
 cells.forEach((cell) => {
   cell.addEventListener("pointerdown", (e) => {
     let xTarget = [...cell.classList][2][0];
-    let yTarget = [...cell.classList][2].slice(2);
+    let yTarget = [...cell.classList][2].slice(1);
 
-    let target = {
-      xAxis: xTarget,
-      yAxis: Number(yTarget),
-    };
+    let target = `${xTarget}${yTarget}`
 
     turn(target, cell);
   });
@@ -68,7 +65,7 @@ function renderOwnShips(player) {
   for (const ship of player.board.ships) {
     for (const coordinate of ship.coordinates) {
       let givenCell = document.querySelector(
-        `.player-1.grid.${coordinate.xAxis}-${coordinate.yAxis}`
+        `.player-1.grid.${coordinate.coordinate}`
       );
       givenCell.classList.add("occupied");
       givenCell.addEventListener("pointerdown", (e) => {
@@ -83,7 +80,7 @@ function renderEnemyShips(player) {
   for (const ship of player.board.ships) {
     for (const coordinate of ship.coordinates) {
       let givenCell = document.querySelector(
-        `.player-2.grid.${coordinate.xAxis}-${coordinate.yAxis}`
+        `.player-2.grid.${coordinate.coordinate}`
       );
       givenCell.classList.add("occupied");
     }
@@ -99,12 +96,9 @@ drop.forEach((cell) => {
     cell.addEventListener("drop", (e) => {
 
       let xTarget = [...cell.classList][2][0];
-      let yTarget = [...cell.classList][2].slice(2);
+      let yTarget = [...cell.classList][2].slice(1);
     
-      let target = {
-        xAxis: xTarget,
-        yAxis: Number(yTarget),
-      };
+      let target = `${xTarget}${yTarget}`
 
       const data = e.dataTransfer.getData("text/plain")
       //this should be its own function - that way, it can just progress through the different ship types 

@@ -1,4 +1,4 @@
-import { renderOwnShips } from './eventlisteners.js'
+
 import { gameboard } from './gameboard.js'
 
 export const player = (name) => {
@@ -10,20 +10,12 @@ export const player = (name) => {
             let isValid = false 
 
             while (true) {
-                //i need to wrap all of this so that the computer keeps trying until a valid space is chosen
-                let xArr = ['A'] //['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+
+                let xArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
                 let yArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-                let x = random(xArr)
-                let y = random(yArr)
-
-                //consider refactoring - you may be able to just store the xAxis and yAxis as random(xArr) and random(yArr) directly
-                //which saves you a couple of lines 
-                let computerTarget = {
-                    xAxis: x,
-                    yAxis: y
-                }
-                console.log(computerTarget)
+                let computerTarget = `${random(xArr)}${random(yArr)}`
+                
             if (isValidSpace(computerTarget)) {
                 opponent.board.receiveAttack(computerTarget)
                 return computerTarget
@@ -37,20 +29,17 @@ export const player = (name) => {
             
             function isValidSpace(target) {
 
-                //hoo baby, this needs to be refactored 
-                if (opponent.board.missedAttacks.map(coord => coord.xAxis + coord.yAxis).indexOf(target.xAxis + target.yAxis) > -1 ||
+                if (opponent.board.missedAttacks.indexOf(target) > -1 || 
                     opponent.board.ships.find((ship) => {
                         return ship.coordinates.find((coord) => {
-                          return coord.xAxis === target.xAxis && coord.yAxis === target.yAxis && target.isHit;
-                        });
+                            return coord.coordinate === target && coord.isHit
+                                                });
                       })) {
                           return false
                       }
                 return true 
             }
         } else {
-            console.log(this.board.missedAttacks)
-            console.log(this.board.missedAttacks.indexOf(target))
             opponent.board.receiveAttack(target)
         }
     }

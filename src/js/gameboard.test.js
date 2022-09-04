@@ -34,16 +34,12 @@ test('a placed ship is logged in the ships array', () => {
     const givenGameboard = gameboard('givenPlayer')
     givenGameboard.shipsPlaced = 4;
     
-    givenGameboard.placeShip('y-axis', {
-        xAxis: 'B',
-        yAxis: 3
-    })
+    givenGameboard.placeShip('y-axis', 'B3')
     
-
     expect(givenGameboard.ships[0].coordinates).toEqual(
         [
-          { xAxis: 'B', yAxis: 3, isHit: false },
-          { xAxis: 'B', yAxis: 4, isHit: false }
+          { coordinate: 'B3', isHit: false },
+          { coordinate: 'B4', isHit: false }
         ]
     )
 })
@@ -51,31 +47,25 @@ test('a placed ship is logged in the ships array', () => {
 test('will not allow a ship to be placed on top of an existing ship', () => {
     const givenGameboard = gameboard('givenPlayer')
 
-    givenGameboard.shipsPlaced = 4;
+    givenGameboard.shipsPlaced = 3;
 
-    givenGameboard.placeShip('y-axis', {
-        xAxis: 'A',
-        yAxis: 2
-    })
+    givenGameboard.placeShip('y-axis', 'A2')
 
-    givenGameboard.shipsPlaced = 4;
-
-    givenGameboard.placeShip('y-axis', {
-        xAxis: 'A',
-        yAxis: 1
-    })
+    givenGameboard.placeShip('y-axis', 'A1')
 
     expect(givenGameboard.ships[0].coordinates).toEqual(
         [
             {
-                isHit: false,
-                xAxis: 'A',
-                yAxis: 2
+                coordinate: 'A2',
+                isHit: false
             },
             {
+                coordinate: 'A3',
                 isHit: false,
-                xAxis: 'A',
-                yAxis: 3
+            },
+            {
+                coordinate: 'A4',
+                isHit: false
             }
         ],
     )
@@ -86,10 +76,7 @@ test('will not allow an invalid ship to be placed', () => {
     const givenGameboard = gameboard('player')
     givenGameboard.shipsPlaced = 4;
 
-    givenGameboard.placeShip('y-axis', {
-        xAxis: 'J',
-        yAxis: 10
-    })
+    givenGameboard.placeShip('y-axis', 'J10')
 
     expect(givenGameboard.ships.length).toEqual(0)
 })
@@ -98,26 +85,18 @@ test('can accept an attack on a ship', () => {
     const givenGameboard = gameboard('player')
     givenGameboard.shipsPlaced = 4;
     
-    givenGameboard.placeShip('y-axis', {
-        xAxis: 'B',
-        yAxis: 3
-    })
+    givenGameboard.placeShip('y-axis', 'B3')
 
-    givenGameboard.receiveAttack({
-        xAxis: 'B',
-        yAxis: 4
-    })
+    givenGameboard.receiveAttack('B4')
 
     expect(givenGameboard.ships[0].coordinates).toEqual(
         [
             {
-                xAxis: 'B',
-                yAxis: 3,
+                coordinate: 'B3',
                 isHit: false,
             },
             {
-                xAxis: 'B',
-                yAxis: 4,
+                coordinate: 'B4',
                 isHit: true
             }
         ]
@@ -129,31 +108,20 @@ test('will not accept an attack on a ship that has already been hit', () => {
     const givenGameboard = gameboard('player')
     givenGameboard.shipsPlaced = 4;
     
-    givenGameboard.placeShip('y-axis', {
-        xAxis: 'B',
-        yAxis: 3
-    })
+    givenGameboard.placeShip('y-axis', 'B3')
 
-    givenGameboard.receiveAttack({
-        xAxis: 'B',
-        yAxis: 4
-    })
+    givenGameboard.receiveAttack('B4')
 
-    givenGameboard.receiveAttack({
-        xAxis: 'B',
-        yAxis: 4
-    })
+    givenGameboard.receiveAttack('B4')
 
     expect(givenGameboard.ships[0].coordinates).toEqual(
         [
             {
-                xAxis: 'B',
-                yAxis: 3,
+                coordinate: 'B3',
                 isHit: false
             },
             {
-                xAxis: 'B',
-                yAxis: 4,
+                coordinate: 'B4',
                 isHit: true
             }
         ]
@@ -164,44 +132,22 @@ test('will log an attack on an empty space', () => {
     const givenGameboard = gameboard('player')
     givenGameboard.shipsPlaced = 4;
     
-    givenGameboard.placeShip('y-axis', {
-        xAxis: 'B',
-        yAxis: 3
-    })
+    givenGameboard.placeShip('y-axis', 'B3')
 
-    givenGameboard.receiveAttack({
-        xAxis: 'E',
-        yAxis: 2
-    })
+    givenGameboard.receiveAttack('E2')
 
-    expect(givenGameboard.missedAttacks).toEqual(
-        [
-            {
-                xAxis: 'E',
-                yAxis: 2
-            }
-        ]
-    )
+    expect(givenGameboard.missedAttacks).toEqual(['E2'])
 })
 
 test('reports that all ships are sunk', () => {
     const givenGameboard = gameboard('player')
     givenGameboard.shipsPlaced = 4;
     
-    givenGameboard.placeShip('y-axis', {
-        xAxis: 'B',
-        yAxis: 3
-    })
+    givenGameboard.placeShip('y-axis', 'B3')
 
-    givenGameboard.receiveAttack({
-        xAxis: 'B',
-        yAxis: 4
-    })
+    givenGameboard.receiveAttack('B4')
 
-    givenGameboard.receiveAttack({
-        xAxis: 'B',
-        yAxis: 3
-    })
+    givenGameboard.receiveAttack('B3')
 
     expect(givenGameboard.reportSunk()).toBeTruthy()
 })

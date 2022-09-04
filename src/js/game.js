@@ -46,7 +46,7 @@ async function turn(target, cell) {
 
       let ship = player2.board.ships.find((ship) => {
         return ship.coordinates.find((coord) => {
-          return coord.xAxis === target.xAxis && coord.yAxis === target.yAxis;
+          return coord.coordinate === target
         });
       })
 
@@ -74,7 +74,7 @@ async function turn(target, cell) {
     let computerTarget = player2.move(player1);
 
     let targetCell = document.querySelector(`
-            .player-1.grid.${computerTarget.xAxis}-${computerTarget.yAxis}
+            .player-1.grid.${computerTarget}
         `);
 
     if (player1.board.missedAttacks.indexOf(computerTarget) > -1) {
@@ -84,7 +84,7 @@ async function turn(target, cell) {
 
       let ship = player1.board.ships.find((ship) => {
         return ship.coordinates.find((coord) => {
-          return coord.xAxis === computerTarget.xAxis && coord.yAxis === computerTarget.yAxis;
+          return coord.coordinate === computerTarget 
         });
       })
 
@@ -119,41 +119,13 @@ window.onload = function () {
   console.log(player1);
   console.log(player2);
 
-  /*player1.board.placeShip("x-axis", {
-    xAxis: "C",
-    yAxis: 5,
-  });
-  player1.board.placeShip("y-axis", {
-    xAxis: "A",
-    yAxis: 1,
-  });
-  player1.board.placeShip("x-axis", {
-    xAxis: "F",
-    yAxis: 10,
-  });*/
-
-  /* player2.board.placeShip(3, "x-axis", {
-    xAxis: "B",
-    yAxis: 5,
-  });
-  */
-
   while (player2.board.shipsPlaced < 5) {
 
     let xArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     let yArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     let orientationArr = ['y-axis', 'x-axis']
-
-      let x = random(xArr)
-      let y = random(yArr)
-      let orientation = random(orientationArr)
-      //consider refactoring - you may be able to just store the xAxis and yAxis as random(xArr) and random(yArr) directly
-      //which saves you a couple of lines 
     
-    player2.board.placeShip(orientation, {
-      xAxis: x,
-      yAxis: y,
-    });
+    player2.board.placeShip(random(orientationArr), `${random(xArr)}${random(yArr)}`)
 
     function random(arr) {
       return arr[Math.floor(Math.random() * arr.length)]
