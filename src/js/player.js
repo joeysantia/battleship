@@ -1,6 +1,16 @@
 
 import { gameboard } from './gameboard.js'
 
+/**
+ * IMPROVING COMPUTER AI
+ * 
+ * 1. If the computer logs a hit, then it should store the cells above, below, and to either side of the hit in an array
+ * 2. The computer should randomly choose between those cells for the next attack
+ * 3. If the computer logs another attack, it should check to see where the previous attack was landed and move in the opposite 
+ *    direction until a ship is sunk
+ * 
+ */
+
 export const player = (name) => {
 
     const board = gameboard(name)
@@ -28,7 +38,6 @@ export const player = (name) => {
             }
             
             function isValidSpace(target) {
-
                 if (opponent.board.missedAttacks.indexOf(target) > -1 || 
                     opponent.board.ships.find((ship) => {
                         return ship.coordinates.find((coord) => {

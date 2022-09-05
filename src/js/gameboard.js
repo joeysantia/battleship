@@ -8,20 +8,27 @@ export const gameboard = (player) => {
   function isShip(target) {
     return this.ships.find((ship) => {
       return ship.coordinates.find((coord) => {
-        if (target.coordinate) {
+        //
+        return coord.coordinate === (target.coordinate ? target.coordinate : target)
+        /*
+        if (target.coordinate !== undefined) {
           return coord.coordinate === target.coordinate
         } else {
           return coord.coordinate === target;
         }
+        */
       });
     });
   }
 
   function hasValidCoordinates(length, majorAxis, headCoordinate) {
     if (majorAxis === "x-axis") {
-      return length + headCoordinate.charCodeAt(0) <= "J".charCodeAt(0)
+      console.log(String.fromCharCode(length + headCoordinate.charCodeAt(0)))
+      return length - 1 + headCoordinate.charCodeAt(0) <= "J".charCodeAt(0)
     } else {
-      return length + Number(headCoordinate.slice(1)) <= 10
+      //the last coordinate must be less than or equal to 10 (starting at headCoordinate and going up by (length - 1))
+      console.log(length - 1 + Number(headCoordinate.slice(1)))
+      return length - 1 + Number(headCoordinate.slice(1)) <= 10
     }
   }
 
@@ -52,12 +59,13 @@ export const gameboard = (player) => {
    
 
     for (let i = 0; i < newShip.coordinates.length; i++) {
-      console.log(newShip.coordinates[i], isShip.bind(this)(newShip.coordinates[i]))
+
       if (
         isShip.bind(this)(newShip.coordinates[i]) ||
         !hasValidCoordinates(newShip.length, majorAxis, headCoordinate)
       ) {
-        return
+        console.log(isShip.bind(this)(newShip.coordinates[i]), !hasValidCoordinates(newShip.length, majorAxis, headCoordinate))
+        return 
       }
     }
     this.shipsPlaced++

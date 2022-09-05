@@ -23,11 +23,13 @@ export const ship = (name, majorAxis, headCoordinate) => {
 
     for (let i = 1; i < length; i++) {
       if (majorAxis === "x-axis") {
+        //e.g. if the coordinate is 'A1', nextLetter would select 'A' and increment charCode, resulting in 'B1'
         let nextLetter = String.fromCharCode(
           headCoordinate.charCodeAt(0) + i
         );
         addCoordinate(`${String.fromCharCode(headCoordinate.charCodeAt(0) + i)}${headCoordinate.slice(1)}`);
       } else {
+        //e.g. if the coordinate is 'A2', this path would increment the '1', resulting in 'A2'
         addCoordinate(`${headCoordinate[0]}${Number(headCoordinate.slice(1)) + i}`);
       }
     }

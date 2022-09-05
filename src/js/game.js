@@ -21,6 +21,7 @@ import {
 } from "./dom";
 import { player } from "./player";
 import { renderOwnShips, renderEnemyShips } from "./eventlisteners";
+import { togglePlayer2 } from './start'
 
 //not a huge fan of this - able to refactor so that they're not global ?
 let player1;
@@ -44,6 +45,8 @@ async function turn(target, cell) {
     } else {
       await messageUpdate(message1, "it's a hit!", "add", cell, "hit");
 
+      //feels like this could be optimized - right now I'm using the move method, which searches for a target,
+      //and now I'm searching for that same target again. M
       let ship = player2.board.ships.find((ship) => {
         return ship.coordinates.find((coord) => {
           return coord.coordinate === target
@@ -55,7 +58,8 @@ async function turn(target, cell) {
 
         if (isGameOver()) {
           messageUpdate(message3, "You won!", "reset", null, null)
-          return createResetButton()
+          //return (don't think this keyword is necessary, but commenting out for now)
+          createResetButton()
         };
       }
 
@@ -93,7 +97,8 @@ async function turn(target, cell) {
 
         if (isGameOver()) {
           messageUpdate(message3, "You lost.", "reset", null, null)
-          return createResetButton()
+          //return (see above)
+          createResetButton()
         };
       }
     }
@@ -114,10 +119,8 @@ const isGameOver = () => {
 };
 
 window.onload = function () {
-  gameStart("human", "computer");
 
-  console.log(player1);
-  console.log(player2);
+  gameStart("human", "computer");
 
   while (player2.board.shipsPlaced < 5) {
 
@@ -132,13 +135,11 @@ window.onload = function () {
     }
   }
 
-  console.log(player2.board)
+  togglePlayer2()
   
-  
-  
-
-  renderOwnShips(player1);
-  renderEnemyShips(player2);
+  //these were placeholders before and now probably aren't necessary
+  //renderOwnShips(player1);
+  //renderEnemyShips(player2);
 
   
 };

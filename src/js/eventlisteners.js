@@ -1,10 +1,12 @@
-import { player1Cells, messageContainer, message1, cells, drag, drop, axisButton, player2Board } from "./dom";
+import { player1Cells, player2Cells, messageContainer, message1, cells, drag, drop, axisButton, player2Board } from "./dom";
 import { player1, turn } from "./game";
+import { togglePlayer2 } from './start'
 
 let orientation = 'y-axis'
 
-cells.forEach((cell) => {
+player2Cells.forEach((cell) => {
   cell.addEventListener("pointerdown", (e) => {
+    //the third class for each cell (index 2) is the coordinate, within which the x and y coordinates can be accessed
     let xTarget = [...cell.classList][2][0];
     let yTarget = [...cell.classList][2].slice(1);
 
@@ -16,9 +18,10 @@ cells.forEach((cell) => {
 
 axisButton.addEventListener('pointerdown', (e) => {
   let drag = document.querySelector('.drag')
-  console.log(drag.id)
+
   if (orientation === 'y-axis') {
     orientation = 'x-axis'
+    //revisit with real images
     drag.setAttribute('src', '../src/img/placeholder-X.png')
 
     switch(drag.id) {
@@ -40,6 +43,7 @@ axisButton.addEventListener('pointerdown', (e) => {
     }
   } else {
     orientation = 'y-axis'
+    //revisit with real images
     drag.setAttribute('src', '../src/img/placeholder.png')
     switch(drag.id) {
       case 'carrier-x':
@@ -61,6 +65,7 @@ axisButton.addEventListener('pointerdown', (e) => {
   }
 })
 
+/*
 function renderOwnShips(player) {
   for (const ship of player.board.ships) {
     for (const coordinate of ship.coordinates) {
@@ -86,6 +91,7 @@ function renderEnemyShips(player) {
     }
   }
 }
+*/
 
 drag.addEventListener("dragstart", (e) => {
   e.dataTransfer.setData("text/plain", e.target.id);
@@ -95,6 +101,7 @@ drag.addEventListener("dragstart", (e) => {
 drop.forEach((cell) => {
     cell.addEventListener("drop", (e) => {
 
+      //see previous comment about xTarget and yTarget
       let xTarget = [...cell.classList][2][0];
       let yTarget = [...cell.classList][2].slice(1);
     
@@ -102,15 +109,15 @@ drop.forEach((cell) => {
 
       const data = e.dataTransfer.getData("text/plain")
       //this should be its own function - that way, it can just progress through the different ship types 
-      if (player1 ? player1.board.placeShip('y-axis', target) : null) {
+      
+      if (player1.board.placeShip(orientation, target)) {
 
         e.preventDefault();
         e.target.appendChild(document.getElementById(data));
         document.getElementById(data).classList.remove('drag')
-        console.log(player1.board);
 
         let nextShip = document.createElement('img')
-        //fix this once you find the right images - this should be set within the switch statement
+        //see note about placeholders above
         nextShip.setAttribute('src', '../src/img/placeholder.png')
         nextShip.classList.add('drag')
         nextShip.draggable = true;
@@ -134,9 +141,10 @@ drop.forEach((cell) => {
             break;
           case 5:
             message1.textContent = 'Your turn'
+            togglePlayer2()
             messageContainer.removeChild(axisButton)
             player2Board.classList.remove('disabled')
-            console.log('went down the right path')
+            //why not break?
             return;
         }
 
@@ -148,7 +156,8 @@ drop.forEach((cell) => {
         
         
       } else {
-        console.log('that didnt work ')
+        console.log('hello, i am the almighty ship placement bug!')
+        console.log(player1.board.placeShip('y-axis', target))
         if (cell.firstChild) {
           cell.removeChild(drag)
         }
@@ -164,4 +173,4 @@ drop.forEach((cell) => {
   });
 });
 
-export { renderOwnShips, renderEnemyShips, turn };
+export { turn };
