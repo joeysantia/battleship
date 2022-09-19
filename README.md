@@ -1,11 +1,20 @@
 # battleship
-One-player battleship game built with JavaScript. This is my first project designed with test-driven deployment
+One-player battleship game built with JavaScript. This is primarily an exercise in test-driven development, as well as an exploration of the Drag and Drop API. 
 
-CURRENT TASKS
-1. Create ship factory
-2. Create gameboard
-3. Create the player 
-4. Create the CPU
-5. Set up interface
-6. Refine CSS
-7. Add two-player option
+STACK / LIBRARIES / TOOLS
+* HTML
+* CSS
+* JavaScript
+* Node.js
+* Webpack
+* Drag and Drop API 
+* Jest 
+
+HOW TO RUN
+1. Live site link
+2. Will run on all modern browsers 
+
+TASKS-IN-PROGRESS
+* Work out the kinks in the CPU AI
+* Refine CSS (color scheme, fonts, animations)
+* Add a two-player feature

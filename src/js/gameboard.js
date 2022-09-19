@@ -1,33 +1,59 @@
 import { ship } from "./ship.js";
 
 export const gameboard = (player) => {
+  //revisit 
+  //let takenSpaces = []
+
   let missedAttacks = [];
   let ships = [];
   let shipsPlaced = 0;
 
+  /* 
+  POTENTIAL OPTIMIZATION
+  * refactor to make use of the takenSpaces array
+
+  Example for takenSpaces:
+  headCoordinate: 'C5'
+     * orientation: 'x-axis'
+     * length: 5
+     * 
+     * result: 'B4 C4 D4 E4 F4 G4 H4
+     *          B5 C5 D5 E5 F5 G5 H5 
+     *          B6 C6 D6 E6 F6 G6 H6'
+     *          
+     * 
+     * headCoordinate: 'B2'
+     * orientation: 'y-axis'
+     * length: 3
+     * 
+     * result: 'A1 A2 A3
+     *          B1 B2 B3
+     *          C1 C2 C3
+     *          D1 D2 D3
+     *          E1 E2 D3
+
+  function isShip(target) {
+    return this.takenSpaces.find(coord => {
+      return coord === (target.coordinate ? target.coordinate : target)
+    })
+  }
+  */
+
+  
   function isShip(target) {
     return this.ships.find((ship) => {
       return ship.coordinates.find((coord) => {
-        //
         return coord.coordinate === (target.coordinate ? target.coordinate : target)
-        /*
-        if (target.coordinate !== undefined) {
-          return coord.coordinate === target.coordinate
-        } else {
-          return coord.coordinate === target;
-        }
-        */
       });
     });
   }
+  
 
   function hasValidCoordinates(length, majorAxis, headCoordinate) {
     if (majorAxis === "x-axis") {
-      console.log(String.fromCharCode(length + headCoordinate.charCodeAt(0)))
       return length - 1 + headCoordinate.charCodeAt(0) <= "J".charCodeAt(0)
     } else {
       //the last coordinate must be less than or equal to 10 (starting at headCoordinate and going up by (length - 1))
-      console.log(length - 1 + Number(headCoordinate.slice(1)))
       return length - 1 + Number(headCoordinate.slice(1)) <= 10
     }
   }
@@ -64,10 +90,10 @@ export const gameboard = (player) => {
         isShip.bind(this)(newShip.coordinates[i]) ||
         !hasValidCoordinates(newShip.length, majorAxis, headCoordinate)
       ) {
-        console.log(isShip.bind(this)(newShip.coordinates[i]), !hasValidCoordinates(newShip.length, majorAxis, headCoordinate))
         return 
       }
     }
+
     this.shipsPlaced++
     return ships.push(newShip)
     

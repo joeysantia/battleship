@@ -14,8 +14,9 @@ import { gameboard } from './gameboard.js'
 export const player = (name) => {
 
     const board = gameboard(name)
+    
 
-    function move(opponent, target) { //is it necessary for the opponent to be a parameter? 
+    function move(opponent, target) {
         if (this.name === 'computer') {
             let isValid = false 
 
@@ -50,6 +51,18 @@ export const player = (name) => {
             }
         } else {
             opponent.board.receiveAttack(target)
+
+            /*
+            This seems unnecessary, but commenting out for now:
+            
+            if (opponent.board.ships.find(ship => {
+                return ship.coordinates.find(coord => {
+                    return coord === target
+                })
+            })) {
+
+            }
+            */
         }
     }
 

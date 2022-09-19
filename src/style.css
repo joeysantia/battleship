@@ -1,3 +1,7 @@
+:root {
+    --grid-border: 2px solid black;
+}
+
 body {
     height: 100vh;
     width: 100vw;
@@ -12,14 +16,23 @@ main {
     justify-content: center;
 }
 
+#cover {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    height: 100vh;
+    width: 100vw;
+    z-index: 99;
+}
+
 section {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.player-1 .grid {
-    /*pointer-events: none; can definitely remove redundancy here */
 }
 
 .player-1 .occupied {
@@ -58,23 +71,38 @@ section {
 }
 
 .grid {
-    border: 2px solid black;
+    border-left: var(--grid-border);
+    border-top: var(--grid-border);
     height: 40px;
     width: 40px; 
+    box-sizing: border-box;
+}
+
+.J1, .J2, .J3, .J4, .J5, .J6, .J7, .J8, .J9, .J10 {
+    border-right: var(--grid-border)
+}
+
+.A10, .B10, .C10, .D10, .E10, .F10, .G10, .H10, .I10, .J10 {
+    border-bottom: var(--grid-border)
 }
 
 .grid:hover {
     opacity: 0.2
 }
 
+img {
+    position: relative;
+    z-index: 98;
+}
+
 #carrier-y {
     width: 40px;
-    height: 213px;
+    height: 200px;
 }
 
 #carrier-x {
     height: 40px;
-    width: 213px;
+    width: 200px;
 }
 
 #battleship-y {

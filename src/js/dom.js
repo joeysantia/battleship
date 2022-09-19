@@ -1,9 +1,3 @@
-/* 
-THE DOM
-
-
-*/
-
 
 const cells = document.querySelectorAll('.grid')
 const player1Cells = document.querySelectorAll('.player-1.grid')

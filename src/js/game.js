@@ -1,17 +1,6 @@
-/* 
-
-THE GAME
-
-1. Start each game by creating Players (init function - test)
-2. A function should allow player to place ships
-3. You can see your own ships, but the enemy's ships are concealed
-3. Computers should run through the same function, placing ships randomly
-4. The game should alternate turns between player one and two
-5. Declares that the game is over once all ships are sunk on a gameboard
-
-*/
 
 import {
+  player2Board,
   message1,
   message2,
   message3,
@@ -20,8 +9,6 @@ import {
   createResetButton
 } from "./dom";
 import { player } from "./player";
-import { renderOwnShips, renderEnemyShips } from "./eventlisteners";
-import { togglePlayer2 } from './start'
 
 //not a huge fan of this - able to refactor so that they're not global ?
 let player1;
@@ -46,7 +33,7 @@ async function turn(target, cell) {
       await messageUpdate(message1, "it's a hit!", "add", cell, "hit");
 
       //feels like this could be optimized - right now I'm using the move method, which searches for a target,
-      //and now I'm searching for that same target again. M
+      //and now I'm searching for that same target again. 
       let ship = player2.board.ships.find((ship) => {
         return ship.coordinates.find((coord) => {
           return coord.coordinate === target
@@ -58,7 +45,6 @@ async function turn(target, cell) {
 
         if (isGameOver()) {
           messageUpdate(message3, "You won!", "reset", null, null)
-          //return (don't think this keyword is necessary, but commenting out for now)
           createResetButton()
         };
       }
@@ -97,7 +83,6 @@ async function turn(target, cell) {
 
         if (isGameOver()) {
           messageUpdate(message3, "You lost.", "reset", null, null)
-          //return (see above)
           createResetButton()
         };
       }
@@ -118,6 +103,22 @@ const isGameOver = () => {
   }
 };
 
+function togglePlayer2() {
+  if (document.querySelector('.player-2')) {
+      document.body.querySelector('main').removeChild(player2Board)
+      document.body.querySelector('#message').removeChild(message2)
+      document.body.querySelector('#message').removeChild(message3)
+      if (document.querySelector('#cover')) {
+          document.body.querySelector('main').removeChild(document.querySelector('#cover'))
+      }
+  } else {
+      document.querySelector('main').appendChild(player2Board)
+      document.body.querySelector('#message').appendChild(message2)
+      document.body.querySelector('#message').appendChild(message3)
+      
+  }
+}
+
 window.onload = function () {
 
   gameStart("human", "computer");
@@ -135,13 +136,11 @@ window.onload = function () {
     }
   }
 
-  togglePlayer2()
-  
-  //these were placeholders before and now probably aren't necessary
-  //renderOwnShips(player1);
-  //renderEnemyShips(player2);
+  console.log(player1)
+  console.log(player2.board.ships)
 
+  togglePlayer2()
   
 };
 
-export { player1, player2, turn, gameStart, isGameOver };
+export { player1, player2, turn, gameStart, isGameOver, togglePlayer2 };
