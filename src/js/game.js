@@ -119,7 +119,7 @@ function togglePlayer2() {
   }
 }
 
-window.onload = function () {
+window.onload = function() {
 
   gameStart("human", "computer");
 
@@ -136,9 +136,9 @@ window.onload = function () {
     }
   }
 
-  console.log(player1)
+  console.log(player1.board.ships)
   console.log(player2.board.ships)
-
+  message1.textContent = 'Place your Carrier.'
   togglePlayer2()
   
 };

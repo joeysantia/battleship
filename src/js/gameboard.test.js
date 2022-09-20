@@ -1,5 +1,7 @@
 /* 
 
+@jest-environment jsdom
+
 GAMEBOARD
 1. Needs a function that places a ship at a certain
    head coordinate (placeShip()) - this will use the 

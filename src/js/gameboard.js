@@ -1,45 +1,24 @@
-import { ship } from "./ship.js";
 
-export const gameboard = (player) => {
+
+import { ship } from "./ship.js";
+import { message1 } from './dom.js'
+
+export const gameboard = () => {
   //revisit 
-  //let takenSpaces = []
+  let takenSpaces = []
 
   let missedAttacks = [];
   let ships = [];
   let shipsPlaced = 0;
-
-  /* 
-  POTENTIAL OPTIMIZATION
-  * refactor to make use of the takenSpaces array
-
-  Example for takenSpaces:
-  headCoordinate: 'C5'
-     * orientation: 'x-axis'
-     * length: 5
-     * 
-     * result: 'B4 C4 D4 E4 F4 G4 H4
-     *          B5 C5 D5 E5 F5 G5 H5 
-     *          B6 C6 D6 E6 F6 G6 H6'
-     *          
-     * 
-     * headCoordinate: 'B2'
-     * orientation: 'y-axis'
-     * length: 3
-     * 
-     * result: 'A1 A2 A3
-     *          B1 B2 B3
-     *          C1 C2 C3
-     *          D1 D2 D3
-     *          E1 E2 D3
 
   function isShip(target) {
     return this.takenSpaces.find(coord => {
       return coord === (target.coordinate ? target.coordinate : target)
     })
   }
-  */
-
   
+
+  /* 
   function isShip(target) {
     return this.ships.find((ship) => {
       return ship.coordinates.find((coord) => {
@@ -47,6 +26,7 @@ export const gameboard = (player) => {
       });
     });
   }
+  */
   
 
   function hasValidCoordinates(length, majorAxis, headCoordinate) {
@@ -90,17 +70,35 @@ export const gameboard = (player) => {
         isShip.bind(this)(newShip.coordinates[i]) ||
         !hasValidCoordinates(newShip.length, majorAxis, headCoordinate)
       ) {
+        message1.textContent = 'You cannot place a ship in another ship\'s immediate vicinity.'
         return 
       }
     }
 
     this.shipsPlaced++
+
+    let xStart = (headCoordinate[0] === 'A' ? 'A'.charCodeAt(0) : headCoordinate.charCodeAt(0) - 1)
+    let yStart = (headCoordinate.slice(1) === '1' ? 1 : Number(headCoordinate.slice(1)) - 1)
+    let xEnd = xStart + (majorAxis === 'x-axis' ? newShip.length + 1 : 2)
+    let yEnd = yStart + (majorAxis === 'y-axis' ? newShip.length + 1 : 2)
+
+    for (let x = xStart; x <= xEnd; x++) {
+      for (let y = yStart; y <= yEnd; y++) {
+        this.takenSpaces.push(`${String.fromCharCode(x)}${y}`)
+      }
+    }
+
     return ships.push(newShip)
+    
     
   }
 
   function receiveAttack(target) {
-    const targetedShip = isShip.bind(this)(target);
+    const targetedShip = this.ships.find((ship) => {
+      return ship.coordinates.find((coord) => {
+        return coord.coordinate === (target.coordinate ? target.coordinate : target)
+      });
+    })
 
     if (targetedShip) {
       const targetedShipIndex = ships.findIndex((ship) => targetedShip);
@@ -126,6 +124,7 @@ export const gameboard = (player) => {
     },
     shipsPlaced,
     missedAttacks,
+    takenSpaces,
     placeShip,
     receiveAttack,
     reportSunk,
