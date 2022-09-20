@@ -11,7 +11,7 @@ STACK / LIBRARIES / TOOLS
 * Jest 
 
 HOW TO RUN
-1. Live site link
+1. Live site: https://joeysantia.github.io/battleship/
 2. Will run on all modern browsers 
 
 TASKS-IN-PROGRESS
