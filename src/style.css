@@ -14,6 +14,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-flow: wrap;
 }
 
 #cover {
@@ -137,12 +138,12 @@ img {
 
 #patrol-boat-y {
     width: 40px;
-    height: 90px;
+    height: 80px;
 }
 
 #patrol-boat-x {
     height: 40px;
-    width: 90px;
+    width: 80px;
 }
 
 #test {
